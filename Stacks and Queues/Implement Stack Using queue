@@ -1,0 +1,101 @@
+//Leetcode question 225
+
+
+/*Approch 1 
+Using Single queue
+for pop- just remove the element 
+for top-peek the element
+for empty-check is empty function
+for push- 
+1)Add the element
+2)if size of queue is 1 dont do anything 
+if queue size is greater than 1 say n
+then for (n-1) time 
+dequeue from the queue and add it back to the queue.
+
+Time Complexity:
+For pop O(1)
+For top O(1)
+For  push O(n)
+for empty O(1)
+
+*/
+class MyStack {
+    Queue<Integer> queue; //Declaration 
+    public MyStack() {
+        queue=new LinkedList<>(); //initialization of queue
+    }
+    
+    public void push(int x) {
+        queue.add(x);
+        for(int i=1;i<queue.size();i++){
+            queue.add(queue.remove());
+        }
+    }
+    
+    public int pop() {
+        return queue.remove();
+    }
+    
+    public int top() {
+        return queue.peek();
+    }
+
+    public boolean empty() {
+        return queue.isEmpty();
+    }
+}
+
+/*Approch 2- Using 2 queues
+  for push-enque in queue1
+  for pop-
+  1) deque the element from queue1 and enque it in queue 2 till size of queue1 is greter than 1
+  2) now remove final element fom queue1 and store it in a variable .
+  3)swap the queue1 and queue2
+  4)return the remove variable
+
+  for top-same as remove but after storing the variable we need to add it to queue 2 as well
+  for empty- use isEmpty() function.
+ */
+
+ class MyStack {
+Queue<Integer> queue1;
+Queue<Integer> queue2;
+
+    public MyStack() {
+        this.queue1=new LinkedList<>();
+        this.queue2=new LinkedList<>();
+    }
+    
+    public void push(int x) {
+        queue1.add(x);
+    }
+    
+    public int pop() {
+        while(queue1.size()>1){
+            queue2.add(queue1.remove());
+        }
+        int removed=queue1.remove();
+        Queue<Integer> temp=queue1;
+        queue1=queue2;
+        queue2=temp;
+        return removed;
+    }
+    
+    public int top() {
+        while(queue1.size()>1){
+            queue2.add(queue1.remove());
+        }
+        int top=queue1.remove();
+        queue2.add(top);
+        Queue<Integer> temp=queue1;
+        queue1=queue2;
+        queue2=temp;
+        return top;
+    }
+    
+    public boolean empty() {
+        return queue1.isEmpty();
+    }
+}
+
