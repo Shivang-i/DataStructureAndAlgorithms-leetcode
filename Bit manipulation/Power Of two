@@ -1,0 +1,29 @@
+//leetcode 231
+/*Approch 1- continuous division by 2 till possible. */
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        if(n<=0)
+        return false;
+        if(n==1)
+        return true;
+        else{
+            while(n%2==0){
+                n/=2;
+            }
+            if(n==1)
+            return true;
+            else
+             return false;
+    }
+    }
+}
+
+/*Approch 2- Bit manipulation (Optimized)*/
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        if(n<=0)
+        return false;
+        else 
+        return (n&(n-1))==0;
+    }
+}

@@ -1,0 +1,25 @@
+//leetcode 190
+
+public class Solution {
+    // You need to treat 'n' as an unsigned value
+    public int reverseBits(int n) {
+        int result = 0; // This will store the reversed bit result
+
+        // Loop through all 32 bits of the integer
+        for (int i = 0; i < 32; i++) {
+            // Extract the last bit of n
+            int lastBit = n & 1;
+
+            // Left shift the current result by 1 to make room for the new bit
+            // Then OR it with lastBit to add the bit to the end
+            result = (result << 1) | lastBit;
+
+            // Use unsigned right shift (>>>) to shift n one bit to the right
+            // This is important to handle negative numbers correctly
+            n = n >>> 1;
+        }
+
+        // Return the reversed bits as an integer
+        return result;
+    }
+}

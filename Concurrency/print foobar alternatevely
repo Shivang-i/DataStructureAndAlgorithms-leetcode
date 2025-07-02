@@ -1,0 +1,63 @@
+/*leetcode-1115
+Suppose you are given the following code:
+
+class FooBar {
+  public void foo() {
+    for (int i = 0; i < n; i++) {
+      print("foo");
+    }
+  }
+
+  public void bar() {
+    for (int i = 0; i < n; i++) {
+      print("bar");
+    }
+  }
+}
+The same instance of FooBar will be passed to two different threads:
+
+thread A will call foo(), while
+thread B will call bar().
+Modify the given program to output "foobar" n times.
+*/
+
+
+class FooBar {
+    private int n;
+    private CountDownLatch[] latchAfterFoo;
+    private CountDownLatch[] latchAfterBar;
+
+
+    public FooBar(int n) {
+        this.n = n;
+        latchAfterFoo= new CountDownLatch[n];
+        latchAfterBar= new CountDownLatch[n];
+        for(int i=0;i<n;i++){
+            latchAfterFoo[i]= new CountDownLatch(1);
+            latchAfterBar[i]= new CountDownLatch(1);
+        }
+
+    }
+
+    public void foo(Runnable printFoo) throws InterruptedException {
+       
+        for (int i = 0; i < n; i++) {
+             if(i>0){
+            latchAfterBar[i-1].await();
+        }
+        	// printFoo.run() outputs "foo". Do not change or remove this line.
+        	printFoo.run();
+            latchAfterFoo[i].countDown();
+        }
+    }
+
+    public void bar(Runnable printBar) throws InterruptedException {
+       
+        for (int i = 0; i < n; i++) {
+             latchAfterFoo[i].await();
+            // printBar.run() outputs "bar". Do not change or remove this line.
+        	printBar.run();
+            latchAfterBar[i].countDown();
+        }
+    }
+}

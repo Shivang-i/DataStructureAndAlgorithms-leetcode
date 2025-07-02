@@ -1,0 +1,62 @@
+//leetcode 136
+/*objective :to find single number in an array every number is give twice except 1 we need to find that number*/ */
+
+//Approch 1 using hash map
+/*we will make a frequency map and will check which element has frequency 1*/
+
+class Solution {
+    public int singleNumber(int[] nums) {
+        HashMap<Integer,Integer> map=new HashMap<>();
+        for(int i:nums) {
+            if(map.containsKey(i))
+            {
+                map.put(i,map.get(i)+1);
+            }
+            else
+            {
+                map.put(i,1);
+            }
+        }
+        for(int i:nums){
+            if(map.get(i)==1)
+            return i;
+        }
+        return -1;
+    }
+}
+
+//Approch 2 using hash set
+/*we need to find the sum of array and put the element in hash set and find its sum .to return the element which appear only once we need to return 2Hashset total-array total sum.*/
+
+class Solution {
+    public int singleNumber(int[] nums) {
+        HashSet<Integer> set=new HashSet<>();
+        int sumarr=0;
+        int sumset=0;
+        for(int i:nums){
+            sumarr+=i;
+            if(!set.contains(i)){
+                sumset+=i;
+                set.add(i);
+            }
+        }
+        return(2*sumset-sumarr);
+    }
+}
+
+//Approch 3 
+/*Optimized approch- using bit manipulation XOR operation
+X^X=0 by using this we can exor the entire array and finally single element value will be left.
+*/
+
+class Solution {
+    public int singleNumber(int[] nums) {
+        int p=0;
+        for(int i=0;i<nums.length;i++)
+        {
+            p^=nums[i];
+        }
+        return(p);
+
+    }
+}

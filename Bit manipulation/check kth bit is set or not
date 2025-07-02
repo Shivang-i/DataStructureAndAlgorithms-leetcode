@@ -1,0 +1,7 @@
+//objective to check if kth bit is set or not
+class checkBit{
+    static boolean checkkthBit(int n,int k)
+    {
+        return (n&(1<<k)!=0);
+    }
+}

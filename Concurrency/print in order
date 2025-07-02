@@ -1,0 +1,69 @@
+/*leetcode 1114
+Suppose we have a class:
+
+public class Foo {
+  public void first() { print("first"); }
+  public void second() { print("second"); }
+  public void third() { print("third"); }
+}
+The same instance of Foo will be passed to three different threads. Thread A will call first(), thread B will call second(), and thread C will call third(). Design a mechanism and modify the program to ensure that second() is executed after first(), and third() is executed after second().
+
+Note:
+
+We do not know how the threads will be scheduled in the operating system, even though the numbers in the input seem to imply the ordering. The input format you see is mainly to ensure our tests' comprehensiveness.
+*/
+
+/* we will use CountDownLatch
+
+CountDownLatch in Java
+CountDownLatch is a synchronization aid in the java.util.concurrent package. It allows one or more threads to wait until a set of operations being performed in other threads completes.
+
+Key Concepts
+Purpose: To block a thread until other threads have completed a set of operations.
+
+Package: java.util.concurrent.CountDownLatch
+
+Thread-safe: Yes
+
+How It Works
+A CountDownLatch is initialized with a count.
+
+Each time a thread completes part of the task, it calls countDown(), decreasing the count.
+
+The thread(s) waiting for the latch call await(), which blocks them until the count reaches zero.
+
+
+ 
+ */
+
+
+ class Foo {
+private CountDownLatch latchAfterFirst;
+private CountDownLatch latchAfterSecond;
+
+    public Foo() {
+        latchAfterFirst=new CountDownLatch(1);
+        latchAfterSecond=new CountDownLatch(1);
+
+    }
+
+    public void first(Runnable printFirst) throws InterruptedException {
+        
+        // printFirst.run() outputs "first". Do not change or remove this line.
+        printFirst.run();
+        latchAfterFirst.countDown();
+    }
+
+    public void second(Runnable printSecond) throws InterruptedException {
+        latchAfterFirst.await();
+        // printSecond.run() outputs "second". Do not change or remove this line.
+        printSecond.run();
+        latchAfterSecond.countDown();
+    }
+
+    public void third(Runnable printThird) throws InterruptedException {
+        latchAfterSecond.await();
+        // printThird.run() outputs "third". Do not change or remove this line.
+        printThird.run();
+    }
+}

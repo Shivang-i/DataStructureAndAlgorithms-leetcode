@@ -1,0 +1,24 @@
+//leetcode 371
+/*objective we nee to find sum of two integer without using + and - operator
+ Xor for sum;
+ and for carry and left shift to make caary add to its orginal place.
+ */
+
+class Solution {
+    public int getSum(int a, int b) {
+        // Keep looping until there's no carry left
+        while (b != 0) {
+            // Step 1: Find carry bits (where both a and b have 1s)
+            int carry = (a & b) << 1;
+
+            // Step 2: Add bits of a and b where at least one is 1 (XOR)
+            a = a ^ b;
+
+            // Step 3: Assign carry to b so it can be added in the next loop
+            b = carry;
+        }
+
+        // When there's no carry left, 'a' holds the final sum
+        return a;
+    }
+}
