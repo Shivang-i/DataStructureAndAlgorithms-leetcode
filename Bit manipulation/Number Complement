@@ -1,0 +1,20 @@
+//leetcode 476
+/*The method findComplement(int num) returns the bitwise complement of a given positive integer, where:
+
+we need to flip all the bits only up to the most significant bit (MSB) of num.
+
+Leading zeroes are not considered — only bits that are part of the binary representation of the number.
+
+ */
+class Solution {
+    public int findComplement(int num) {
+        // Step 1: Find the number of bits in 'num'
+        int numberOfBits = Integer.toBinaryString(num).length();
+
+        // Step 2: Create a mask with all bits set to 1 (same length as 'num')
+        int mask = (1 << numberOfBits) - 1;
+
+        // Step 3: XOR 'num' with the mask to flip all its bits
+        return num ^ mask;
+    }
+}
