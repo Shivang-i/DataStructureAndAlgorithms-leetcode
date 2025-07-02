@@ -1,0 +1,47 @@
+//leetcode 389
+//approch 1 Sort and compare
+import java.util.Arrays;
+
+class Solution {
+    public char findTheDifference(String s, String t) {
+        // Convert both strings to character arrays
+        char ch1[] = s.toCharArray();
+        char ch2[] = t.toCharArray();
+
+        // Sort both character arrays so matching characters line up
+        Arrays.sort(ch1);
+        Arrays.sort(ch2);
+
+        // Compare both sorted arrays to find the differing character
+        int i;
+        for (i = 0; i < s.length(); i++) {
+            // If characters at the same position differ, we've found the extra character
+            if (ch1[i] != ch2[i])
+                break;
+        }
+
+        // The extra character is at index 'i' in the longer string 't'
+        return ch2[i];
+    }
+}
+
+//approch 2- using bit manipulation
+class Solution {
+    public char findTheDifference(String s, String t) {
+        char xor = 0;
+
+        // XOR all characters from string s
+        for (char c : s.toCharArray()) {
+            xor ^= c;
+        }
+
+        // XOR all characters from string t
+        for (char c : t.toCharArray()) {
+            xor ^= c;
+        }
+
+        // The remaining value in 'xor' is the extra character from t
+        return xor;
+    }
+}
+
