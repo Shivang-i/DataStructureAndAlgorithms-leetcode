@@ -1,0 +1,16 @@
+//leetcode-575
+//Alice was advice to eat n/2 candies she want to eat max type of candies..
+
+//Approch -using hash set
+//Add the candyType in hash set id n/2 is greater than size of hash set return  size of hash map else return n/2.
+class Solution {
+    public int distributeCandies(int[] candyType) {
+        HashSet<Integer> set =new HashSet<>();//set of candy type
+        int n=candyType.length;
+        for(int i=0;i<candyType.length;i++){
+            set.add(candyType[i]);
+        }
+        int type=set.size();//find how many different type of candies are there,.
+        return (type<(n/2))?type:n/2;//if n/2 is greater than type of candies than return type else return n/2.
+    }
+}
