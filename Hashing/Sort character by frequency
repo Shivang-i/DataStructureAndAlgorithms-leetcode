@@ -1,0 +1,33 @@
+//leetcode-451
+//objective is to sort character by frequency
+/*Approch using hash map
+ make frequency map and then sort the character basd on the value.
+ */
+
+ class Solution {
+    public String frequencySort(String s) {
+        HashMap<Character,Integer> map=new HashMap<>();//frequency map
+        for(int i=0;i<s.length();i++){
+            char c=s.charAt(i);
+            map.put(c,map.getOrDefault(c,0)+1);//store frequency of each character in string 
+        }
+        int max=Integer.MIN_VALUE;//Assign min value to msx
+        char maxChar='\u0000';//to store max occuring character
+        StringBuilder sb=new StringBuilder();
+        while(sb.toString().length()!=s.length()){
+            for(char ch:map.keySet()){
+                if(map.get(ch)>max){
+                    max=map.get(ch);//check for map character and store it 
+                    maxChar=ch;
+                }
+            }
+            map.remove(maxChar);//after getting max char and frequency of it remove the current max character
+            int i=max;
+            while(i-->0){
+                sb.append(maxChar);//with loop append the character according to the occurance
+            }
+            max=Integer.MIN_VALUE;//reassigning max with default value
+        }
+        return sb.toString();
+    }
+}
