@@ -1,0 +1,49 @@
+Recursion is a programming technique where a function calls itself to solve smaller instances of the same problem until a base condition is met. 
+It is commonly used to simplify complex problems by breaking them down into simpler subproblems. 
+Every recursive function must have a base case to stop the recursion, preventing infinite loops and stack overflow errors.
+ Recursion is widely used in tasks such as computing factorials, generating Fibonacci sequences, and traversing data structures like trees and graphs.
+  While elegant and powerful, recursion can be memory-intensive, so it should be used with caution and, when possible, optimized with techniques like memoization.
+  
+  public static void main(){
+    print1(1);
+  }
+  static void print1(int n){
+    System.out.println(n);
+    print2(2);
+  }
+  static void print2(int n){
+    System.out.println(n);
+    print3(3);
+  }
+  static void print3(int n){
+    System.out.println(n);
+    print4(4);
+  }
+  static void print4(int n){
+    System.out.println(n);
+  }
+
+//output-
+1
+2
+3
+4
+instead
+use recursion
+public static void main(){
+    print(1);
+  }
+  static void print(int n){
+    if(n==4)//base condtion
+    {
+      System.out.println(n);
+      return;
+    }
+    System.out.println(n);
+    print(n+1);//recursive call
+  }
+  //output-
+1
+2
+3
+4
