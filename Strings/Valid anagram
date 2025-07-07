@@ -1,0 +1,72 @@
+//leetcode-242
+//Approch 1 by converting to sorted Character Array
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length()!=t.length())//check for length if not equal return false
+        {
+            return false;
+        }
+        else{
+        char ch1[]=s.toCharArray();//convert to character array
+        char ch2[]=t.toCharArray();
+        Arrays.sort(ch1);//sort both the array
+        Arrays.sort(ch2);
+        return Arrays.equals(ch1, ch2);//compare both array.
+        }
+    }
+}
+//Approch 2-using hash Maps
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length()!=t.length())
+        {
+            return false;
+        }
+        HashMap<Character,Integer>smap= new HashMap<>();
+        HashMap<Character,Integer>tmap= new HashMap<>();
+        for(char ch:s.toCharArray())
+        {
+            smap.put(ch, smap.getOrDefault(ch,0)+1);
+        }
+          for(char ch:t.toCharArray())
+        {
+            tmap.put(ch, tmap.getOrDefault(ch,0)+1);
+        }
+        return smap.equals(tmap);
+    }
+}
+
+
+
+//Approch 3-using array of 26 length
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        // If the lengths of the strings are not equal, they cannot be anagrams
+        if (s.length() != t.length()) {
+            return false;
+        } else {
+            // Create an array to store the frequency of each character (assuming lowercase letters a-z)
+            int[] charCount = new int[26];
+
+            // Iterate through both strings simultaneously
+            for (int i = 0; i < s.length(); i++) {
+                // Increment the count for the character in string s
+                charCount[s.charAt(i) - 'a']++;
+
+                // Decrement the count for the character in string t
+                charCount[t.charAt(i) - 'a']--;
+            }
+
+            // Check if all character counts are zero
+            // If not, s and t have different character frequencies and are not anagrams
+            for (int count : charCount) {
+                if (count != 0)
+                    return false;
+            }
+        }
+
+        // If all counts are zero, s and t are anagrams
+        return true;
+    }
+}
