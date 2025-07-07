@@ -1,0 +1,37 @@
+//leetcode 33
+class Solution {
+    // Recursive helper method to search target in rotated sorted array
+    public int helper(int[] nums, int target, int s, int e) {
+        if (s > e)
+            return -1;  // Base case: target not found
+
+        int mid = s + (e - s) / 2;
+
+        if (nums[mid] == target)
+            return mid; // Target found
+
+        // If the left half is sorted
+        if (nums[s] <= nums[mid]) {
+            // Check if target lies within the sorted left half
+            if (target >= nums[s] && target < nums[mid]) {
+                return helper(nums, target, s, mid - 1);
+            } else {
+                return helper(nums, target, mid + 1, e);
+            }
+        } 
+        // Else, the right half must be sorted
+        else {
+            // Check if target lies within the sorted right half
+            if (target > nums[mid] && target <= nums[e]) {
+                return helper(nums, target, mid + 1, e);
+            } else {
+                return helper(nums, target, s, mid - 1);
+            }
+        }
+    }
+
+    // Public method to initiate the search
+    public int search(int[] nums, int target) {
+        return helper(nums, target, 0, nums.length - 1);
+    }
+}
