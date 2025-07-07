@@ -1,0 +1,31 @@
+//leetcode 217
+//Approch 1-sort the array
+//time complexity O(n logn)
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        Arrays.sort(nums);//sort the array
+        for(int i=0;i<nums.length-1;i++){
+            if(nums[i]==nums[i+1]){//for duplicate check adjuscent element.
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+
+
+//Approch 2-using hash set
+//time complexity-O(n)
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        HashSet<Integer> set=new HashSet<>(); 
+        for(int i:nums){//traverse the array
+            if(set.contains(i))//if element is contained in set return true
+            return true;
+            else
+            set.add(i);//if not just add the element
+        }
+        return false;//if element is not appear in hash set
+    }
+}
