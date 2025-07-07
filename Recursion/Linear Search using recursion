@@ -1,0 +1,16 @@
+//linear search using recursion
+//this function will return index.
+static int search(int arr[],int target,int index){
+    if(index==arr.length)
+    return -1;
+    if(arr[index]==target)
+    return index;
+    return Search(arr,target,index+1);
+}
+//this function will return true of false value only.
+static boolean find(int arr[],int target,int index){
+    if(index==arr.length)
+    return false;
+   
+    return arr[index]==target||find(arr,target,index+1);
+}
