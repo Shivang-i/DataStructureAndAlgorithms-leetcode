@@ -1,0 +1,40 @@
+//  Preorder Traversal (Root → Left → Right)
+// Visit the root node.
+// Recursively traverse the left subtree.
+// Recursively traverse the right subtree.
+
+
+static void preorder(TreeNode root) {
+    if (root == null) return;
+    System.out.print(root.data + " ");
+    preorder(root.left);
+    preorder(root.right);
+}
+
+
+//   Inorder Traversal (Left → Root → Right)
+// Recursively traverse the left subtree.
+// Visit the root node.
+// Recursively traverse the right subtree.
+
+
+static void inorder(TreeNode root) {
+    if (root == null) return;
+    inorder(root.left);
+    System.out.print(root.data + " ");
+    inorder(root.right);
+}
+
+
+//  Postorder Traversal (Left → Right → Root)
+// Recursively traverse the left subtree.
+// Recursively traverse the right subtree.
+// Visit the root node.
+
+
+static void postorder(TreeNode root) {
+    if (root == null) return;
+    postorder(root.left);
+    postorder(root.right);
+    System.out.print(root.data + " ");
+}

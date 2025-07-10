@@ -1,0 +1,18 @@
+class TreeNode{
+int data;
+TreeNode left;
+TreeNode right;
+TreeNode(int data){
+    this.data=data;
+}
+}
+class Main{
+public static void main(String[] args) {
+    TreeNode root=new TreeNode(10);
+    TreeNode leftchild=new TreeNode(20);
+    TreeNode rightchild=new TreeNode(20);
+    root.left=leftchild;
+    root.right=rightchild;
+}
+}
+//This Java program defines a simple structure for a binary tree using a class called TreeNode. Each node in the tree stores an integer value (data) and has references to its left and right child nodes. The constructor initializes the node with a given value. In the main method, the program creates a root node with the value 10, and then creates two child nodes, both with the value 20. These child nodes are assigned as the left and right children of the root node. As a result, the tree formed has a root node with two children, forming a basic binary tree structure. This program does not perform any operations like traversal or modification—it only builds and connects the nodes.

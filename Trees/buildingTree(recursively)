@@ -1,0 +1,36 @@
+class TreeNode{
+int data;
+TreeNode left;
+TreeNode right;
+TreeNode(int data){
+    this.data=data;
+}
+}
+Class Main{
+    static Scanner sc=new Scanner(System.in);
+    static TreeNode createTree(){
+        System.out.println("Enter the data of the node or -1 for null");
+        int data=sc.nextInt();
+        if(data==-1)
+        return;
+        TreeNode node=new TreeNode(data);
+        //built left tree
+        System.out.println("Enter the data of left child  of "+data);
+        node.left=createTree();
+        //built right tree
+        System.out.println("Enter the data of right child  of "+data);
+        node.right=createTree();
+        return node;
+
+    }
+    static void printTree(TreeNode root){
+        Sopln(root.data);
+        printTree(root.left);
+        printTree(root.right);
+    }
+    public static void main(){
+        TreeNode root=createTree();
+        printTree(root);
+    }
+}
+//This Java program allows the user to build a binary tree dynamically using recursive input and then prints the tree in preorder traversal. It consists of two classes: TreeNode and Main. The TreeNode class defines the structure of each node in the tree, containing an integer data and references to its left and right children. In the Main class, a Scanner is used to take input from the user. The createTree() method prompts the user to enter the value of a node; entering -1 indicates that there is no node (null). For each valid input, it creates a new TreeNode, then recursively calls itself to set the left and right children. The printTree() method is intended to perform a preorder traversal, printing each node's value before recursively printing the left and right subtrees. However, the program contains a few issues: the keyword Class should be lowercase (class), the method Sopln() should be corrected to System.out.println(), and the main() method should have the proper signature public static void main(String[] args). Once these are fixed, the program builds a binary tree based on user input and displays its nodes in preorder.

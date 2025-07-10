@@ -1,0 +1,19 @@
+// The levelOrderTraversal method performs a level-order traversal (also known as breadth-first traversal) of a binary tree. In this approach, nodes are visited level by level from top to bottom and from left to right within each level. The method uses a Queue to keep track of the nodes to be visited. It starts by checking if the root node is null; if so, the traversal ends immediately. Otherwise, the root node is added to the queue. Then, in a loop, the method repeatedly removes the front node from the queue, prints its data, and adds its left and right children to the queue (if they are not null). This continues until the queue is empty, meaning all nodes have been visited in level order. This approach ensures that nodes are processed in the order they appear by level, making it ideal for applications like printing tree levels or finding the shortest path in unweighted trees.
+
+static void levelOrderTraversal(TreeNode root){
+    if(root==null){
+        return;
+    }
+    Queue<TreeNode> queue=new LinkedList<>();
+    queue.add(root);
+    while(!queue.isEmpty()){
+        TreeNode curr=queue.poll();
+        System.out.println(curr.data);
+        if(curr.left!=null){
+            queue.add(curr.left);
+        }
+        if(curr.right!=null){
+            queue.add(curr.right);
+        }
+    }
+}
