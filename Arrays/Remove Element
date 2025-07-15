@@ -1,0 +1,18 @@
+//leetcode 27
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int l=nums.length;
+        int k=0;
+        for(int i=0;i<l-k;i++){//traverse the array (Considering the element are alse deleted)
+            if(nums[i]==val){//if nums[i]==val
+                k++;//increase counter
+            
+            for(int j=i;j<l-k;j++){//delete element 
+                nums[j]=nums[j+1];
+            }
+            i--;//revisit the element to check for more equal value 
+        }
+        }
+        return l-k;//return the length of remaining array
+    }
+}

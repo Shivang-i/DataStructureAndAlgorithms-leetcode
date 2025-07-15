@@ -1,0 +1,17 @@
+//leetcode-121
+
+class Solution {
+    public int maxProfit(int[] prices) {
+       int profit=0;//initializing with default value 
+       int buyPrice=prices[0];//lets consider we bought stocks at day 1
+       int maxProfit=0;
+       for(int i=1;i<prices.length;i++){//traverse
+        if(buyPrice>prices[i]){
+            buyPrice=prices[i];//update buy price if in future price of stock decreases
+        }
+        profit=Math.max(profit,prices[i]-buyPrice);//compare profit of past and current 
+        maxProfit=(Math.max(profit,maxProfit));//evalute Maximum profit.
+       }
+       return maxProfit;
+    }
+}

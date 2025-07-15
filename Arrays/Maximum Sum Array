@@ -1,0 +1,12 @@
+//leetcode -53
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int current_sum=nums[0];//initialize max sum and current sum with first eleement
+        int max_sum=nums[0];
+        for(int i=1;i<nums.length;i++){//traverse the array 
+            current_sum=Math.max(current_sum+nums[i],nums[i]);//find maximum of currentsum+current element or current element.
+            max_sum=Math.max(current_sum,max_sum);//comparr max Sum and current sum.
+        }
+        return max_sum;//return max Sum
+    }
+}
