@@ -1,0 +1,66 @@
+//leetcode 103
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+         // This will hold the final result - a list of levels,
+        // where each level is a list of integers (node values).
+        List<List<Integer>> bigList = new ArrayList<>();
+
+        // Edge case: if the tree is empty, return an empty list.
+        if (root == null) {
+            return bigList;
+        }
+        int level=0;//keep track of level
+        // Use a queue to help with level-order traversal (BFS).
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root); // Start with the root node.
+
+        // Continue looping until there are no more nodes to process.
+        while (!queue.isEmpty()) {
+            level++;
+            int levelSize = queue.size(); // Number of nodes at current level
+            List<Integer> smallList = new ArrayList<>(); // Holds values for the current level
+
+            // Process each node in the current level
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode curr = queue.poll(); // Remove the front node from the queue
+                smallList.add(curr.val); // Add its value to the current level list
+
+                // If the current node has a left child, add it to the queue
+                if (curr.left != null) {
+                    queue.add(curr.left);
+                }
+
+                // If the current node has a right child, add it to the queue
+                if (curr.right != null) {
+                    queue.add(curr.right);
+                }
+            }
+
+            // After processing the level, add it to the result list according to condition
+            if(level%2==0)
+            {
+              Collections.reverse(smallList);
+            }
+            bigList.add(smallList);
+        }
+
+        // Return the complete level-order traversal
+        return bigList;
+    }
+}
