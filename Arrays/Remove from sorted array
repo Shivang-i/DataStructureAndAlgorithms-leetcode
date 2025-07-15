@@ -1,7 +1,6 @@
 //leetcode-26
 class Solution {
     public int removeDuplicates(int[] nums) {
-        
         int l=nums.length;
         if(l<2)
         return l;//if length is less than 2 (i.e 0 or 1) return length
