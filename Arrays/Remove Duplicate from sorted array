@@ -1,0 +1,21 @@
+//leetcode-26
+class Solution {
+    public int removeDuplicates(int[] nums) {
+
+        int l = nums.length; // Store the original length of the array
+        if (l < 2)
+            return l; // If array has 0 or 1 elements, return as is (no duplicates possible)
+
+        for (int i = 0; i < l - 1; i++) {
+            if (nums[i] == nums[i + 1]) { // Check for duplicate elements
+                // Shift all elements to the left to overwrite the duplicate
+                for (int j = i + 1; j < l - 1; j++) {
+                    nums[j] = nums[j + 1];
+                }
+                l--;  // Reduce the length since one duplicate is removed
+                i--;  // Decrement `i` to recheck the new element at current position
+            }
+        }
+        return l; // Return the new length of the array with duplicates removed
+    }
+}
