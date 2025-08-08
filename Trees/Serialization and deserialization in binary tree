@@ -1,0 +1,73 @@
+//leetcode 297
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Codec {
+
+    // ---------------- SERIALIZATION ----------------
+    // Convert a tree into a string using preorder traversal
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        serializeHelper(root, sb);
+        return sb.toString(); // Final serialized string
+    }
+
+    /**
+     * Helper function to serialize the tree using preorder (Root, Left, Right)
+     * If the node is null, we store "null"
+     * Otherwise, store the value and serialize left and right children
+     */
+    void serializeHelper(TreeNode root, StringBuilder sb) {
+        if (root == null) {
+            sb.append("null").append(","); // null marker
+            return;
+        }
+        sb.append(root.val).append(",");   // store current node's value
+        serializeHelper(root.left, sb);    // serialize left subtree
+        serializeHelper(root.right, sb);   // serialize right subtree
+    }
+
+    // ---------------- DESERIALIZATION ----------------
+    // Convert the string back into the original tree structure
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        // Split the serialized string by commas
+        String arr[] = data.split(",");
+        
+        // Store the values in a queue for sequential processing
+        Queue<String> queue = new LinkedList<>(Arrays.asList(arr));
+        
+        return deserializeHelper(queue);
+    }
+
+    /**
+     * Helper function to build the tree back using preorder structure
+     * We read values in the same order we serialized them
+     */
+    TreeNode deserializeHelper(Queue<String> queue) {
+        String nodeData = queue.poll(); // Get the next value
+
+        // IMPORTANT: This must be checked with "null" string, not null reference
+        if (nodeData.equals("null")) {
+            return null; // No node here
+        }
+
+        // Create a new node with the value
+        TreeNode node = new TreeNode(Integer.parseInt(nodeData));
+
+        // Recursively build the left and right subtrees
+        node.left = deserializeHelper(queue);
+        node.right = deserializeHelper(queue);
+
+        return node;
+    }
+}
