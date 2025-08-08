@@ -1,0 +1,86 @@
+//leetcode 105
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {
+    
+    // Keeps track of the current index in the preorder array
+    // This is shared across recursive calls so we know which node to create next
+    int preOrderIndex = 0; 
+    
+    // A map to store each value from inorder traversal and its corresponding index
+    // This allows O(1) lookup to find the root position in inorder array
+    Map<Integer, Integer> map = new HashMap<>();
+    
+    /**
+     * Builds a binary tree from preorder and inorder traversal arrays.
+     *
+     * @param preorder The preorder traversal of the tree
+     * @param inorder The inorder traversal of the tree
+     * @return The root of the constructed binary tree
+     */
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        
+        // Fill the map with inorder values and their indices for quick access
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
+        }
+        
+        // Start recursive construction from the full inorder range
+        return helper(preorder, 0, preorder.length - 1);
+    }
+    
+    /**
+     * Recursive helper function to build the tree.
+     *
+     * @param preorder The preorder traversal array
+     * @param start Starting index in the inorder array for the current subtree
+     * @param end Ending index in the inorder array for the current subtree
+     * @return The root node of the constructed subtree
+     */
+    public TreeNode helper(int[] preorder, int start, int end) {
+        
+        // Base case: if there are no elements to construct the subtree
+        if (start > end) {
+            return null;
+        }
+        
+        // Get the current root value from preorder using preOrderIndex
+        int nodeValue = preorder[preOrderIndex]; 
+        preOrderIndex++;
+        
+        // Create the root node with this value
+        TreeNode node = new TreeNode(nodeValue); 
+        
+        // If there's only one node in this segment, return it as a leaf
+        if (start == end) {
+            return node;
+        }
+        
+        // Find the root's index in the inorder array
+        int index = map.get(nodeValue);
+        
+        // Recursively construct the left subtree from inorder[start ... index-1]
+        node.left = helper(preorder, start, index - 1);
+        
+        // Recursively construct the right subtree from inorder[index+1 ... end]
+        node.right = helper(preorder, index + 1, end);
+        
+        // Return the constructed subtree root
+        return node; 
+    }
+}
