@@ -1,0 +1,86 @@
+//leetcode 106
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {
+    
+    // Index for current root in postorder array (starts from the end)
+    int postOrderIndex;
+    
+    // Map to store value → index in inorder for O(1) lookups
+    Map<Integer, Integer> map = new HashMap<>();
+    
+    /**
+     * Builds a binary tree from postorder and inorder traversal arrays.
+     *
+     * @param inorder The inorder traversal of the tree
+     * @param postorder The postorder traversal of the tree
+     * @return The root of the constructed binary tree
+     */
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        
+        // Fill the map with inorder values and their indices
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
+        }
+        
+        // Start from the last index of postorder (root of whole tree)
+        postOrderIndex = postorder.length - 1;
+        
+        // Build tree using full inorder range
+        return helper(postorder, 0, inorder.length - 1);
+    }
+    
+    /**
+     * Recursive helper function to build the tree.
+     *
+     * @param postorder The postorder array
+     * @param start Start index in inorder array
+     * @param end End index in inorder array
+     * @return Root node of the constructed subtree
+     */
+    public TreeNode helper(int[] postorder, int start, int end) {
+        
+        // Base case: no nodes in this subtree
+        if (start > end) {
+            return null;
+        }
+        
+        // The current root is at postOrderIndex in postorder array
+        int nodeValue = postorder[postOrderIndex];
+        postOrderIndex--;
+        
+        // Create the root node
+        TreeNode node = new TreeNode(nodeValue);
+        
+        // If this is the only node in the current range, return it
+        if (start == end) {
+            return node;
+        }
+        
+        // Find root's index in inorder
+        int index = map.get(nodeValue);
+        
+        // IMPORTANT: Build right subtree first (because postorder is L → R → Root
+        // and we are moving backwards, so we hit the right subtree first)
+        node.right = helper(postorder, index + 1, end);
+        
+        // Build left subtree
+        node.left = helper(postorder, start, index - 1);
+        
+        return node;
+    }
+}
