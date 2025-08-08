@@ -1,0 +1,77 @@
+//leetcode-450
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {
+
+    /**
+     * Deletes a node with the given key from a Binary Search Tree (BST).
+     *
+     * @param root The root of the BST
+     * @param key  The value of the node to be deleted
+     * @return The root of the BST after deletion
+     */
+    public TreeNode deleteNode(TreeNode root, int key) {
+        
+        // If the tree is empty, nothing to delete
+        if (root == null)
+            return null;
+
+        // Search for the node in the left subtree if key is smaller
+        if (key < root.val) {
+            root.left = deleteNode(root.left, key);
+        }
+        // Search for the node in the right subtree if key is larger
+        else if (key > root.val) {
+            root.right = deleteNode(root.right, key);
+        }
+        // Found the node to delete
+        else {
+            // Case 1: Node has no left child
+            if (root.left == null) {
+                return root.right; // Replace with right child (may be null)
+            }
+            // Case 2: Node has no right child
+            if (root.right == null) {
+                return root.left; // Replace with left child (may be null)
+            }
+            // Case 3: Node has two children
+            // Find the smallest value in the right subtree (inorder successor)
+            TreeNode min = findMin(root.right);
+
+            // Copy the inorder successor's value into this node
+            root.val = min.val;
+
+            // Delete the inorder successor node from the right subtree
+            root.right = deleteNode(root.right, min.val);
+        }
+
+        // Return the root pointer after modifications
+        return root;
+    }
+
+    /**
+     * Helper method to find the node with the minimum value in a subtree.
+     * This will always be the leftmost node in a BST.
+     */
+    TreeNode findMin(TreeNode node) {
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node;
+    }
+}
