@@ -1,0 +1,71 @@
+//leetcode 543
+//Diameter of binary tree is the longest path between 2 nodes.
+// Approch- find height of left and right sub tree and then find diameter of each node by adding left and right. then find maximum of node diameter and tree diameter.
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {
+    
+    // Global variable to store the maximum diameter found so far
+    int diamerterOfTree = 0;
+
+    /**
+     * Helper function to calculate the height of the tree
+     * while updating the maximum diameter.
+     * 
+     * @param root The current node being processed
+     * @return The height of the subtree rooted at 'root'
+     */
+    public int helper(TreeNode root) {
+        
+        // Base case: If the current node is null, height is 0
+        if (root == null) {
+            return 0;
+        }
+
+        // Recursively find the height of the left subtree
+        int left = helper(root.left);
+
+        // Recursively find the height of the right subtree
+        int right = helper(root.right);
+
+        // Diameter through the current node = height of left subtree + height of right subtree
+        int diamerterOfNode = left + right;
+
+        // Update the global maximum diameter if this node's diameter is larger
+        diamerterOfTree = Math.max(diamerterOfTree, diamerterOfNode);
+
+        // Return the height of this node = 1 (current node) + max height of left/right subtree
+        return 1 + Math.max(left, right);
+    }
+
+    /**
+     * Main function to find the diameter of a binary tree.
+     * 
+     * @param root The root of the binary tree
+     * @return The diameter of the binary tree
+     */
+    public int diameterOfBinaryTree(TreeNode root) {
+        
+        // Call the helper to compute heights and update the diameter
+        helper(root);
+        
+        // Return the computed diameter
+        return diamerterOfTree;
+    }
+}
