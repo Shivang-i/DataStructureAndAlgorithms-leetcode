@@ -1,0 +1,47 @@
+//leetcode-700
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {
+
+    /**
+     * Searches for a node with the given value in a Binary Search Tree (BST).
+     *
+     * @param root The root of the BST
+     * @param val  The value to search for
+     * @return The node containing val, or null if not found
+     */
+    public TreeNode searchBST(TreeNode root, int val) {
+        
+        // Base case: if the tree/subtree is empty, value not found
+        if (root == null)
+            return null;
+
+        // If the current node's value matches the target, return this node
+        if (val == root.val)
+            return root;
+
+        // If the value is greater than the current node's value,
+        // it must be in the right subtree (BST property)
+        if (val > root.val) {
+            return searchBST(root.right, val);
+        }
+        // Otherwise, the value must be in the left subtree
+        else {
+            return searchBST(root.left, val);
+        }
+    }
+}
