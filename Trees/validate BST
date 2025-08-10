@@ -1,0 +1,58 @@
+//leetcode 98
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {
+
+    /**
+     * Helper method to validate the Binary Search Tree.
+     * 
+     * @param root Current node being checked.
+     * @param min  Lower bound for the node's value (exclusive).
+     * @param max  Upper bound for the node's value (exclusive).
+     * @return true if the subtree rooted at 'root' is a valid BST, false otherwise.
+     */
+    boolean helper(TreeNode root, long min, long max) {
+        // Base case: An empty tree is always a valid BST.
+        if (root == null) {
+            return true;
+        }
+
+        // If the current node's value violates the BST property, return false.
+        // The value must be strictly greater than 'min' and strictly less than 'max'.
+        if (root.val <= min || root.val >= max) {
+            return false;
+        }
+
+        // Recursively check:
+        // - The left subtree must have all values < current node's value.
+        // - The right subtree must have all values > current node's value.
+        return helper(root.left, min, root.val) &&
+               helper(root.right, root.val, max);
+    }
+
+    /**
+     * Main method to check if a binary tree is a valid BST.
+     * 
+     * @param root The root of the binary tree.
+     * @return true if the tree is a valid BST, false otherwise.
+     */
+    public boolean isValidBST(TreeNode root) {
+        // Use Long.MIN_VALUE and Long.MAX_VALUE to handle edge cases 
+        // where node values might be at the limits of int range.
+        return helper(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+}
