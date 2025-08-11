@@ -1,0 +1,52 @@
+//leetcode 108
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {
+    // Store the input array as a class-level variable so helper() can access it
+    int nums[];
+
+    // Recursive helper function to build a height-balanced BST
+    TreeNode helper(int left, int right) {
+        // Base case: if left index crosses right index, there are no elements to form a node
+        if (left > right) {
+            return null;
+        }
+
+        // Choose middle element to maintain balance
+        int mid = (left + right) / 2;
+
+        // Create a new tree node from the middle element
+        TreeNode node = new TreeNode(nums[mid]);
+
+        // Recursively build the left subtree from the left half of the array
+        node.left = helper(left, mid - 1);
+
+        // Recursively build the right subtree from the right half of the array
+        node.right = helper(mid + 1, right);
+
+        // Return the constructed node
+        return node;
+    }
+
+    public TreeNode sortedArrayToBST(int[] nums) {
+        // Assign nums to class variable so helper() can use it
+        this.nums = nums;
+
+        // Call recursive function with the full array range
+        return helper(0, nums.length - 1);
+    }
+}
