@@ -1,0 +1,11 @@
+int maxValue(TreeNode root) {
+    if (root == null) {
+        throw new IllegalArgumentException("Tree is empty");
+    }
+
+    // Keep going right until there is no more right child
+    while (root.right != null) {
+        root = root.right;
+    }
+    return root.val;
+}
