@@ -1,0 +1,50 @@
+//leetcode 112
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        // Start recursion with an initial sum of 0
+        return helper(root, 0, targetSum);
+    }
+
+    // Recursive helper function:
+    // root      -> current node
+    // sum       -> cumulative sum of values along the current path
+    // targetSum -> required sum to check
+    boolean helper(TreeNode root, int sum, int targetSum) {
+        // Base case: if node is null, path doesn't exist
+        if (root == null) {
+            return false;
+        }
+
+        // Add current node's value to the running sum
+        sum = sum + root.val;
+
+        // If it's a leaf node (no children), check if path sum equals target
+        if (root.left == null && root.right == null) {
+            return sum == targetSum;
+        }
+
+        // Recursively check the left subtree
+        boolean leftResult = helper(root.left, sum, targetSum);
+
+        // Recursively check the right subtree
+        boolean rightResult = helper(root.right, sum, targetSum);
+
+        // Return true if any path matches the target sum
+        return leftResult || rightResult;
+    }
+}
