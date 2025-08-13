@@ -1,0 +1,62 @@
+//leetcode 938
+/**
+ * Definition for a binary tree node.
+ * Represents each node of the binary tree with an integer value 
+ * and pointers to its left and right child nodes.
+ 
+public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode() {}
+    TreeNode(int val) { this.val = val; }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+    */
+
+class Solution {
+    // Variable to store the running sum of values within the given range.
+    int sum = 0;
+
+    /**
+     * Main function to calculate the sum of node values in the BST that fall within [low, high].
+     * @param root The root node of the binary search tree.
+     * @param low The lower bound of the range.
+     * @param high The upper bound of the range.
+     * @return The sum of all node values within [low, high].
+     */
+    public int rangeSumBST(TreeNode root, int low, int high) {
+        helper(root, low, high);
+        return sum; // Return the accumulated sum after traversal.
+    }
+
+    /**
+     * Recursive helper function to traverse the BST and add values within the given range.
+     * Uses BST properties to prune branches that cannot contain values in range.
+     * @param root Current node being examined.
+     * @param low Lower bound of the valid range.
+     * @param high Upper bound of the valid range.
+     */
+    void helper(TreeNode root, int low, int high) {
+        if (root != null) {
+            // If current node value is inside [low, high], add it to sum.
+            if (root.val >= low && root.val <= high) {
+                sum = sum + root.val;
+            }
+            // If current node value is greater than low, 
+            // left subtree might contain valid values (since all left children are smaller).
+            if (root.val > low) {
+                helper(root.left, low, high);
+            }
+            // If current node value is less than high, 
+            // right subtree might contain valid values (since all right children are larger).
+            if (root.val < high) {
+                helper(root.right, low, high);
+            }
+        }
+    }
+}
