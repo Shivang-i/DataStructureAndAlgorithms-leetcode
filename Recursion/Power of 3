@@ -1,0 +1,19 @@
+//leetcode 326
+class Solution {
+    // Helper method that recursively checks if n is a power of three
+    private boolean solve(int n) {
+        // Base case: 3^0 = 1, so if n is 1, it's a power of three
+        if (n == 1) return true;
+
+        // If n is non-positive OR not divisible by 3, it cannot be a power of three
+        if (n <= 0 || n % 3 != 0) return false;
+
+        // If divisible by 3, keep dividing by 3 and check again
+        return solve(n / 3);
+    }
+
+    // Public method that starts the recursive check
+    public boolean isPowerOfThree(int n) {
+        return solve(n);
+    }
+}
