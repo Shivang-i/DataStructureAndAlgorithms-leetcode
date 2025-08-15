@@ -1,0 +1,39 @@
+/*
+// A Binary Tree node
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}
+*/
+
+class Solution {
+    // Function to return sum of all leaf nodes of a binary tree
+    static int leafSum(Node root) {
+        // Base case: If the current node is null, it contributes 0 to the sum
+        if (root == null) {
+            return 0;
+        }
+
+        // If the current node is a leaf node (no left and no right child),
+        // return its data because leaf nodes contribute directly to the sum
+        if (root.left == null && root.right == null) {
+            return root.data;
+        }
+
+        // Recursively calculate the sum of leaf nodes in the left subtree
+        int leftSum = leafSum(root.left);
+
+        // Recursively calculate the sum of leaf nodes in the right subtree
+        int rightSum = leafSum(root.right);
+
+        // Return the total sum of leaf nodes from both subtrees
+        return leftSum + rightSum;
+    }
+}
