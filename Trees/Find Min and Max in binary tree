@@ -1,0 +1,54 @@
+/*
+class Node {
+    int data;
+    Node left, right;
+
+    public Node(int data){
+        this.data = data;
+    }
+}
+*/
+
+class Solution {
+    // Function to find the maximum value in a binary tree
+    public static int findMax(Node root) {
+        // Base case: if the node is null, return the smallest possible integer
+        // This ensures that null nodes don't affect the maximum calculation
+        if (root == null) {
+            return Integer.MIN_VALUE;
+        }
+
+        // Recursively find the maximum value in the left subtree
+        int leftValue = findMax(root.left);
+
+        // Recursively find the maximum value in the right subtree
+        int rightValue = findMax(root.right);
+
+        // Return the maximum among:
+        //   1. The current node's value
+        //   2. Maximum from the left subtree
+        //   3. Maximum from the right subtree
+        return Math.max(root.data, Math.max(leftValue, rightValue));
+    }
+
+    // Function to find the minimum value in a binary tree
+    public static int findMin(Node root) {
+        // Base case: if the node is null, return the largest possible integer
+        // This ensures that null nodes don't affect the minimum calculation
+        if (root == null) {
+            return Integer.MAX_VALUE;
+        }
+
+        // Recursively find the minimum value in the left subtree
+        int leftValue = findMin(root.left);
+
+        // Recursively find the minimum value in the right subtree
+        int rightValue = findMin(root.right);
+
+        // Return the minimum among:
+        //   1. The current node's value
+        //   2. Minimum from the left subtree
+        //   3. Minimum from the right subtree
+        return Math.min(root.data, Math.min(leftValue, rightValue));
+    }
+}
