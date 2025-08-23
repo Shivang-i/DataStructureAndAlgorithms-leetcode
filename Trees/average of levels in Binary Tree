@@ -1,0 +1,42 @@
+//leetcode-637
+
+class Solution {
+    /**
+     * Computes the average value of nodes on each level of a binary tree.
+     * Uses Breadth-First Search (BFS) with a queue to traverse the tree level by level.
+     *
+     * @param root the root node of the binary tree
+     * @return a list of averages for each level
+     */
+    public List<Double> averageOfLevels(TreeNode root) {
+        List<Double> avgList = new ArrayList<>();  // Result list to store averages level by level
+        Queue<TreeNode> queue = new LinkedList<>(); // Queue for BFS traversal
+        queue.offer(root); // Start BFS with the root node
+
+        // Continue until all levels are processed
+        while (!queue.isEmpty()) {
+            int size = queue.size();  // Number of nodes at the current level
+            long sum = 0;             // Sum of node values at this level (long to avoid overflow)
+
+            // Process all nodes in the current level
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll(); // Remove the front node from the queue
+                sum += node.val;              // Add its value to the sum
+
+                // Add left and right children to the queue for the next level
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+
+            // Calculate the average for this level.
+            // Cast sum to double before division to ensure floating-point division.
+            avgList.add((double) sum / size);
+        }
+
+        return avgList; // Return the list of level averages
+    }
+}
