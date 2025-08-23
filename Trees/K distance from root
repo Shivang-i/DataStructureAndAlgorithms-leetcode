@@ -1,0 +1,57 @@
+//gfg question 
+/*
+class Node
+{
+    int data;
+    Node left, right;
+    Node(int item) {
+        data = item;
+        left = right = null;
+    }
+} 
+*/
+
+class Tree {
+    /**
+     * Finds all nodes that are exactly k distance from the root using BFS (level-order traversal).
+     *
+     * @param root the root node of the binary tree
+     * @param k the distance from the root
+     * @return an ArrayList of integers representing nodes at distance k
+     */
+    ArrayList<Integer> Kdistance(Node root, int k) {
+        ArrayList<Integer> result = new ArrayList<>();    // To store nodes at distance k
+        Queue<Node> queue = new LinkedList<>();           // Queue for BFS traversal
+        queue.offer(root);                                // Start BFS from the root
+        int level = 0;                                     // Track current level distance from root
+
+        // Standard BFS traversal
+        while (!queue.isEmpty()) {
+            int size = queue.size(); // Number of nodes at the current level
+
+            // If we have reached the desired level k
+            if (level == k) {
+                // Collect all nodes at this level
+                for (int i = 0; i < size; i++) {
+                    result.add(queue.poll().data);  // Add node data to result
+                }
+                return result;  // No need to go deeper since we only want distance k
+            }
+
+            // Process all nodes at this level and enqueue their children
+            for (int i = 0; i < size; i++) {
+                Node node = queue.poll();
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+            level++; // Move to the next level
+        }
+
+        // If k is greater than the height of the tree, result will remain empty
+        return result;
+    }
+}
