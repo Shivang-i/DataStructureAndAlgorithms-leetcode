@@ -1,0 +1,52 @@
+//leetcode 523
+
+class Solution {
+    public boolean checkSubarraySum(int[] nums, int k) {
+        // Objective:
+        // Check if there is a contiguous subarray of length >= 2
+        // whose sum is a multiple of k (i.e., sum % k == 0).
+
+        // Edge case: if fewer than 2 elements, it's impossible
+        if (nums.length < 2) return false;
+
+        // Special case: if k == 0, we cannot use modulo.
+        // The only valid case is when two consecutive elements are zero.
+        if (k == 0) {
+            for (int i = 0; i < nums.length - 1; i++) {
+                if (nums[i] == 0 && nums[i + 1] == 0) return true;
+            }
+            return false;
+        }
+
+        // Map to store remainder -> first index where it appeared
+        // Initialize with (0, -1) to handle cases where the subarray
+        // starts from index 0 and sum is directly divisible by k.
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+
+        int sum = 0; // running prefix sum
+
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];  // update running sum
+
+            // Calculate remainder and normalize it to always be non-negative
+            int rem = ((sum % k) + k) % k;
+
+            // If remainder already exists in map, check subarray length
+            if (map.containsKey(rem)) {
+                int prevIndex = map.get(rem);
+                if (i - prevIndex >= 2) {
+                    // Found subarray with sum divisible by k and length >= 2
+                    return true;
+                }
+            } else {
+                // Store remainder with its index only if not seen before
+                // (keep earliest index to maximize subarray length)
+                map.put(rem, i);
+            }
+        }
+
+        // If no valid subarray found after processing all elements
+        return false;
+    }
+}
