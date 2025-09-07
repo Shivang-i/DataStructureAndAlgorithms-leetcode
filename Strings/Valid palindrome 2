@@ -1,0 +1,37 @@
+//leetcode 680
+class Solution {
+    public boolean validPalindrome(String s) {
+        int start = 0;                  // left pointer at the start of string
+        int last = s.length() - 1;      // right pointer at the end of string
+
+        // Traverse from both ends towards the middle
+        while (start < last) {
+            // If characters don't match, we have one chance to skip either left or right
+            if (s.charAt(start) != s.charAt(last)) {
+                // Check if skipping left OR skipping right results in a palindrome
+                return isPalindrome(s, start + 1, last) || isPalindrome(s, start, last - 1);
+            }
+            // Move both pointers inward if characters match
+            start++;
+            last--;
+        }
+
+        // If loop completes without mismatches, it's already a palindrome
+        return true;
+    }
+
+    // Helper function to check if substring s[start...last] is a palindrome
+    public static boolean isPalindrome(String s, int start, int last) {
+        while (start < last) {
+            // If mismatch found, it's not a palindrome
+            if (s.charAt(start) != s.charAt(last)) {
+                return false;
+            }
+            // Move both pointers inward
+            start++;
+            last--;
+        }
+        // If all characters match, it's a palindrome
+        return true;
+    }
+}
