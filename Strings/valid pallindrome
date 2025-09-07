@@ -1,0 +1,35 @@
+//leetcode-125
+class Solution {
+    public boolean isPalindrome(String s) {
+        // Convert entire string to lowercase for uniform comparison
+        s = s.toLowerCase();
+
+        String s1 = "";   // Will store only alphanumeric characters
+        char ch;
+
+        // Step 1: Filter out only letters and digits (ignore spaces, punctuation, etc.)
+        for (int i = 0; i < s.length(); i++) {
+            ch = s.charAt(i);
+            if (Character.isDigit(ch) || Character.isLowerCase(ch)) {
+                s1 = s1 + ch;  // Append valid characters
+            }
+        }
+
+        // Now s1 contains only lowercase alphanumeric characters
+        s = s1;
+        s1 = "";
+
+        // Step 2: Reverse the cleaned string
+        for (int i = s.length() - 1; i >= 0; i--) {
+            ch = s.charAt(i);
+            s1 = s1 + ch;
+        }
+
+        // Step 3: Compare original cleaned string with its reverse
+        if (s1.equals(s)) {
+            return true;   // It's a palindrome
+        } else {
+            return false;  // Not a palindrome
+        }
+    }
+}
