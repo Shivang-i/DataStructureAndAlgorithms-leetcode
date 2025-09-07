@@ -1,0 +1,38 @@
+//code 360
+import java.util.* ;
+import java.io.*; 
+
+public class Solution {
+    public static void sortArray(ArrayList<Integer> arr, int n) {
+        // Count the number of 0s, 1s, and 2s in the array
+        int ctr0 = 0, ctr1 = 0, ctr2 = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (arr.get(i) == 0) {
+                ctr0++; // count zeros
+            } else if (arr.get(i) == 1) {
+                ctr1++; // count ones
+            } else {
+                ctr2++; // count twos
+            }
+        }
+
+        // Clear the original array to refill it in sorted order
+        arr.clear();
+
+        // Add all 0s first
+        for (int i = 0; i < ctr0; i++) {
+            arr.add(0);
+        }
+
+        // Then add all 1s
+        for (int i = 0; i < ctr1; i++) {
+            arr.add(1);
+        }
+
+        // Finally add all 2s
+        for (int i = 0; i < ctr2; i++) {
+            arr.add(2);
+        }
+    }
+}
