@@ -1,0 +1,38 @@
+//leetcode 797
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        // 'ans' will hold all possible paths from source (0) to target (n-1)
+        List<List<Integer>> ans = new ArrayList<>();
+
+        // Start DFS (helper) from source node 0
+        helper(0, graph, ans, new ArrayList<>());
+
+        return ans;
+    }
+
+    // Recursive DFS function to explore all paths
+    public static void helper(int node, int[][] graph, List<List<Integer>> ans, List<Integer> curr) {
+        // Add the current node to the ongoing path
+        curr.add(node);
+
+        // If we reached the target node (last node in graph)
+        if (node == graph.length - 1) {
+            // Add a copy of current path to the answer list
+            ans.add(new ArrayList<>(curr));
+
+            // Backtrack: remove the current node before returning
+            curr.remove(curr.size() - 1);
+            return;
+        }
+
+        // Explore all neighbors of the current node
+        for (int next : graph[node]) {
+            helper(next, graph, ans, curr);
+        }
+
+        // Backtrack: remove the current node so it won't affect other paths
+        curr.remove(curr.size() - 1);
+    }
+}
