@@ -1,0 +1,134 @@
+//Continuous graph 
+
+import java.util.*;
+
+public class DFSConnectedGraph {
+    
+    // Edge class to represent graph edges
+    static class Edge {
+        int src;
+        int dest;
+
+        public Edge(int s, int d) {
+            this.src = s;
+            this.dest = d;
+        }
+    }
+
+    // Function to create a sample connected graph
+    public static void CreateGraph(ArrayList<Edge>[] graph) {
+        for (int i = 0; i < graph.length; i++) {
+            graph[i] = new ArrayList<Edge>();
+        }
+
+        // Example: connected graph
+        // 0 -- 1 -- 2
+        //  \       /
+        //   \-- 3 -- 4
+        graph[0].add(new Edge(0, 1));
+        graph[0].add(new Edge(0, 3));
+
+        graph[1].add(new Edge(1, 0));
+        graph[1].add(new Edge(1, 2));
+
+        graph[2].add(new Edge(2, 1));
+        graph[2].add(new Edge(2, 4));
+
+        graph[3].add(new Edge(3, 0));
+        graph[3].add(new Edge(3, 4));
+
+        graph[4].add(new Edge(4, 3));
+        graph[4].add(new Edge(4, 2));
+    }
+
+    // Recursive DFS for connected graph
+    public static void dfs(ArrayList<Edge>[] graph, boolean[] visited, int curr) {
+        visited[curr] = true;
+        System.out.print(curr + " "); // process node
+
+        for (Edge e : graph[curr]) {
+            if (!visited[e.dest]) {
+                dfs(graph, visited, e.dest);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int v = 5; // number of vertices
+        ArrayList<Edge>[] graph = new ArrayList[v];
+        CreateGraph(graph);
+
+        boolean[] visited = new boolean[v];
+
+        System.out.println("DFS Traversal for Connected Graph (starting from 0):");
+        dfs(graph, visited, 0); // only one call needed since graph is connected
+    }
+}
+
+
+
+//Discontinuous graph 
+
+import java.util.*;
+
+public class DFSDisconnectedGraph {
+    
+    // Edge class to represent graph edges
+    static class Edge {
+        int src;
+        int dest;
+
+        public Edge(int s, int d) {
+            this.src = s;
+            this.dest = d;
+        }
+    }
+
+    // Function to create a sample disconnected graph
+    public static void CreateGraph(ArrayList<Edge>[] graph) {
+        for (int i = 0; i < graph.length; i++) {
+            graph[i] = new ArrayList<Edge>();
+        }
+
+        // First component: 0-1-2
+        graph[0].add(new Edge(0, 1));
+        graph[1].add(new Edge(1, 0));
+        graph[1].add(new Edge(1, 2));
+        graph[2].add(new Edge(2, 1));
+
+        // Second component: 3-4
+        graph[3].add(new Edge(3, 4));
+        graph[4].add(new Edge(4, 3));
+
+        // Node 5 is isolated (third component)
+    }
+
+    // Recursive DFS for a single component
+    public static void dfs(ArrayList<Edge>[] graph, boolean[] visited, int curr) {
+        visited[curr] = true;
+        System.out.print(curr + " "); // process node
+
+        for (Edge e : graph[curr]) {
+            if (!visited[e.dest]) {
+                dfs(graph, visited, e.dest);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int v = 6; // number of vertices
+        ArrayList<Edge>[] graph = new ArrayList[v];
+        CreateGraph(graph);
+
+        boolean[] visited = new boolean[v];
+
+        System.out.println("DFS Traversal for Disconnected Graph:");
+        // Run DFS for every component
+        for (int i = 0; i < v; i++) {
+            if (!visited[i]) {
+                dfs(graph, visited, i);
+                System.out.println(); // separate components
+            }
+        }
+    }
+}
