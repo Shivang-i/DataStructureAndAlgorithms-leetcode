@@ -1,0 +1,52 @@
+/*
+Objective: 
+-----------
+This is the classic "House Robber" problem.
+
+Problem statement:
+- You are given an array `nums` where each element represents the amount of money in a house.
+- You are a robber planning to rob houses along a street.
+- The constraint: You cannot rob two adjacent houses (because it would trigger an alarm).
+- Goal: Find the maximum amount of money you can rob without alerting the police.
+
+Approach:
+----------
+We use recursion with memoization (top-down dynamic programming).
+At each index (house), we have two choices:
+1. **Steal from current house** → add current value + skip the next house (`idx + 2`).
+2. **Skip current house** → move to next house (`idx + 1`).
+The maximum of these two choices is stored in `dp[idx]` to avoid recomputation.
+*/
+
+import java.util.Arrays;
+
+class Solution {
+    
+    // Recursive helper function to calculate max loot starting from index idx
+    public int maxLoot(int arr[], int idx, int[] dp) {
+        // Base case: if index goes beyond the array, return 0
+        if (idx >= arr.length) return 0;
+
+        // If result is already computed, return it (memoization)
+        if (dp[idx] != -1) return dp[idx];
+
+        // Option 1: Rob this house, then skip the next one
+        int steal = arr[idx] + maxLoot(arr, idx + 2, dp);
+
+        // Option 2: Skip this house, move to the next one
+        int skip = maxLoot(arr, idx + 1, dp);
+
+        // Store the maximum of the two choices in dp array
+        return dp[idx] = Math.max(steal, skip);
+    }
+
+    // Main function: entry point for solving the problem
+    public int rob(int[] nums) {
+        // dp array initialized with -1 to mark uncomputed states
+        int[] dp = new int[nums.length];
+        Arrays.fill(dp, -1);
+
+        // Start from house at index 0
+        return maxLoot(nums, 0, dp);
+    }
+}
