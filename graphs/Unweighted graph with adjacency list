@@ -4,6 +4,8 @@
 // 3->{3,1},{3,2}
 
 // Adjacency list is prefered because in various Algorithm we need to find the value of the neighbour of graphs which is easy in adjacency list.
+//no extra spaces and hence optimized time too .
+
 import java.util.*;
 
 // Graph implementation using Adjacency List
