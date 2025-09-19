@@ -1,0 +1,69 @@
+/*
+Objective: 
+-----------
+This is the "House Robber II" problem (circular version).
+
+Problem statement:
+- You are given an array `nums` where each element represents the amount of money in a house.
+- Houses are arranged in a circle, i.e., the **first house** and the **last house** are also adjacent.
+- Constraint: You cannot rob two adjacent houses.
+- Goal: Find the maximum amount of money you can rob without alerting the police.
+
+Approach:
+----------
+We reduce the circular problem into two linear subproblems:
+1. Rob houses in the range [0 ... n-2] (exclude the last house).
+2. Rob houses in the range [1 ... n-1] (exclude the first house).
+Take the maximum of these two results.
+
+We use recursion with memoization (top-down DP) for each subproblem.
+At each index:
+1. **Steal from current house** → add current value + skip next house (`idx + 2`).
+2. **Skip current house** → move to next house (`idx + 1`).
+The maximum of these two choices is stored in `dp[idx]`.
+*/
+
+import java.util.Arrays;
+
+class Solution {
+    
+    // Recursive helper function to calculate max loot within a given range
+    public int maxLoot(int arr[], int idx, int end, int[] dp) {
+        // Base case: if index goes beyond allowed range, return 0
+        if (idx > end) return 0;
+
+        // If result is already computed, return it (memoization)
+        if (dp[idx] != -1) return dp[idx];
+
+        // Option 1: Rob this house, then skip the next one
+        int steal = arr[idx] + maxLoot(arr, idx + 2, end, dp);
+
+        // Option 2: Skip this house, move to the next one
+        int skip = maxLoot(arr, idx + 1, end, dp);
+
+        // Store and return maximum loot possible
+        return dp[idx] = Math.max(steal, skip);
+    }
+
+    // Main function: entry point for solving the circular version
+    public int rob(int[] nums) {
+        int n = nums.length;
+
+        // Edge case: only one house → must rob it
+        if (n == 1) return nums[0];
+
+        // Case 1: Rob houses from index 0 to n-2
+        int[] dp1 = new int[n];
+        Arrays.fill(dp1, -1);
+        int case1 = maxLoot(nums, 0, n - 2, dp1);
+
+        // Case 2: Rob houses from index 1 to n-1
+        int[] dp2 = new int[n];
+        Arrays.fill(dp2, -1);
+        int case2 = maxLoot(nums, 1, n - 1, dp2);
+
+        // Return the maximum of the two cases
+        return Math.max(case1, case2);
+    }
+}
+
