@@ -1,0 +1,51 @@
+/*
+Objective:
+-----------
+This is the "Min Cost Climbing Stairs" problem.
+
+Problem statement:
+- You are given an integer array `cost` where `cost[i]` is the cost of the i-th step.
+- Once you pay the cost at step `i`, you can climb either to step `i+1` or step `i+2`.
+- You can start from step 0 or step 1.
+- Goal: Find the minimum cost to reach the "top" (just beyond the last step).
+
+Approach:
+----------
+We use recursion with memoization (top-down DP).
+- At each step `idx`, we pay `cost[idx]` and choose the cheaper option:
+    1. Move to `idx + 1`
+    2. Move to `idx + 2`
+- The recursive relation:
+    dp[idx] = cost[idx] + min(helper(idx+1), helper(idx+2))
+- Base case: If `idx >= cost.length`, return 0 (already at or beyond the top).
+- Since we can start from step 0 or step 1, answer = min(helper(0), helper(1)).
+*/
+
+import java.util.Arrays;
+
+class Solution {
+
+    // Recursive helper function with memoization
+    static int helper(int[] cost, int idx, int[] dp) {
+        // Base case: Reached or passed the top, no extra cost
+        if (idx >= cost.length) {
+            return 0;
+        }
+
+        // If already computed, return stored result
+        if (dp[idx] != -1) return dp[idx];
+
+        // Choice: pay cost at current step and move either +1 or +2
+        return dp[idx] = cost[idx] + Math.min(helper(cost, idx + 1, dp), 
+                                              helper(cost, idx + 2, dp));
+    }
+
+    // Main function to calculate minimum cost to reach the top
+    static int minCostClimbingStairs(int[] cost) {
+        int[] dp = new int[cost.length];
+        Arrays.fill(dp, -1);
+
+        // Can start from step 0 or step 1
+        return Math.min(helper(cost, 0, dp), helper(cost, 1, dp));
+    }
+}
