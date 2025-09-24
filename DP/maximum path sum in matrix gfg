@@ -1,0 +1,56 @@
+// Objective:
+// Given an N x N matrix of integers, find the maximum path sum from the top row to the bottom row.
+// From each cell, you can move to:
+//   1. Down (i+1, j)
+//   2. Down-left (i+1, j-1)
+//   3. Down-right (i+1, j+1)
+// The goal is to start at any cell in the first row and reach the last row with the maximum possible sum.
+
+import java.util.*;
+
+class Solution {
+    static int[][] dp; // Memoization table
+
+    // Recursive helper function with memoization
+    public int helper(int[][] arr, int i, int j) {
+        int n = arr.length;
+        int m = arr[0].length;
+
+        // Boundary check (if out of matrix)
+        if (i < 0 || j < 0 || j >= m || i >= n)
+            return Integer.MIN_VALUE; // invalid path
+
+        // Base case: if we are at the last row, return that cell's value
+        if (i == n - 1)
+            return arr[i][j];
+
+        // If already computed, return stored result
+        if (dp[i][j] != 0)
+            return dp[i][j];
+
+        // Explore all three possible moves
+        int left = helper(arr, i + 1, j - 1);  // move diagonally left
+        int down = helper(arr, i + 1, j);      // move down
+        int right = helper(arr, i + 1, j + 1); // move diagonally right
+
+        // Store result in dp and return (include current cell value)
+        return dp[i][j] = arr[i][j] + Math.max(left, Math.max(down, right));
+    }
+
+    // Main function to compute maximum path sum
+    public int maximumPath(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
+
+        dp = new int[n][m]; // initialize dp table with 0s
+
+        int ans = Integer.MIN_VALUE;
+
+        // Try starting from each column of the first row
+        for (int j = 0; j < m; j++) {
+            ans = Math.max(ans, helper(mat, 0, j));
+        }
+
+        return ans; // maximum path sum
+    }
+}
