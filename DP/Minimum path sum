@@ -1,0 +1,37 @@
+// 🚀 Objective:
+// This program finds the minimum path sum in a grid from the top-left corner (0,0)
+// to the bottom-right corner (m-1,n-1). You can only move either right or down.
+// The solution uses bottom-up dynamic programming.
+
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;      // number of rows
+        int n = grid[0].length;   // number of columns
+
+        int[][] dp = new int[m][n];  // dp[i][j] will store the minimum path sum to reach cell (i,j)
+
+        // Base case: starting cell
+        dp[0][0] = grid[0][0];
+
+        // Fill the first column (can only come from above)
+        for (int i = 1; i < m; i++) {
+            dp[i][0] = dp[i - 1][0] + grid[i][0];
+        }
+
+        // Fill the first row (can only come from the left)
+        for (int j = 1; j < n; j++) {
+            dp[0][j] = dp[0][j - 1] + grid[0][j];
+        }
+
+        // Fill the rest of the grid
+        // Minimum path to (i,j) = value at (i,j) + min(top cell, left cell)
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = grid[i][j] + Math.min(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+
+        // Answer is at bottom-right corner
+        return dp[m - 1][n - 1];
+    }
+}
