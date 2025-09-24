@@ -1,0 +1,36 @@
+class Solution {
+    static int dp[][];
+
+    // Recursive function with memoization to count unique paths in a grid
+    public int paths(int m,int n){
+        // Base case: if we reach starting cell (1,1), only 1 path exists
+        if(m==1 && n==1) return 1;
+
+        // If out of grid boundary, no path exists
+        if(m==0 || n==0) return 0;
+
+        // If already calculated, return stored value
+        if(dp[m][n] != -1) return dp[m][n];
+
+        // Calculate paths by moving up and left
+        int rightWays = paths(m-1, n);
+        int downWays = paths(m, n-1);
+
+        // Store result and return
+        return dp[m][n] = rightWays + downWays;
+    }
+
+    // Main function to initialize dp and return total unique paths
+    public int uniquePaths(int m, int n) {
+        // Initialize dp array with -1 (meaning uncalculated state)
+        dp = new int[m+1][n+1];
+        for(int i=0; i<=m; i++){
+            for(int j=0; j<=n; j++){
+                dp[i][j] = -1;
+            }
+        }
+
+        // Return number of unique paths from (1,1) to (m,n)
+        return paths(m,n);
+    }
+}
