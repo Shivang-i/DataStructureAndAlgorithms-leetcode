@@ -1,0 +1,38 @@
+
+
+class Solution {
+    
+    // Recursive helper function with memoization
+    static int fibo(int N, int[] dp) {
+        // Base case: if N is 0 or 1, Fibonacci is N itself
+        if (N <= 1) {
+            dp[N] = N;
+            return N;
+        }
+
+        // If already computed, return stored value to avoid recomputation
+        if (dp[N] != -1) return dp[N];
+
+        // Recursive relation: fib(N) = fib(N-1) + fib(N-2)
+        int ans = fibo(N - 1, dp) + fibo(N - 2, dp);
+
+        // Store result in dp array for future use
+        dp[N] = ans;
+
+        return ans;
+    }
+
+    // Main function to return Nth Fibonacci number
+    public int nthFibonacci(int N) {
+        // Create a dp array of size (N+1) to store results
+        int[] dp = new int[N + 1];
+
+        // Initialize dp array with -1 (indicating uncomputed values)
+        for (int i = 0; i <= N; i++) {
+            dp[i] = -1;
+        }
+
+        // Call helper function and return the result
+        return fibo(N, dp);
+    }
+}

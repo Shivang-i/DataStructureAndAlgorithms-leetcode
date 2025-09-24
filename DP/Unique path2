@@ -1,0 +1,49 @@
+// 🚀 Objective: 
+// This program calculates the number of unique paths from the top-left corner 
+// to the bottom-right corner of a grid that may contain obstacles. 
+// You can only move either right or down. If a cell has an obstacle (value = 1), 
+// you cannot pass through that cell. The solution uses recursion with memoization (DP).
+
+class Solution {
+    static int dp[][]; // DP array for memoization (stores already computed results)
+
+    // Recursive helper function to count unique paths avoiding obstacles
+    public int helper(int[][] obstacleGrid, int m, int n) {
+        // Out of bounds → no path
+        if (m < 0 || n < 0) return 0;
+
+        // If current cell has an obstacle → no path
+        if (obstacleGrid[m][n] == 1) return 0;
+
+        // If reached starting cell (0,0) and it’s not blocked → 1 valid path
+        if (m == 0 && n == 0) return 1;
+
+        // If already computed, return stored result
+        if (dp[m][n] != -1) return dp[m][n];
+
+        // Recursive calls:
+        // Move up (m-1, n) and left (m, n-1)
+        int up = helper(obstacleGrid, m - 1, n);
+        int left = helper(obstacleGrid, m, n - 1);
+
+        // Store result in dp and return
+        return dp[m][n] = up + left;
+    }
+
+    // Main function to initialize dp array and start recursion
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;      // Number of rows
+        int n = obstacleGrid[0].length;   // Number of columns
+
+        // Initialize dp array with -1 (uncomputed states)
+        dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j] = -1;
+            }
+        }
+
+        // Start from destination (m-1, n-1) and recursively move towards start (0,0)
+        return helper(obstacleGrid, m - 1, n - 1);
+    }
+}
