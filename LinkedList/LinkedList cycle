@@ -1,0 +1,83 @@
+//approch 1
+
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        // HashSet to store visited nodes
+        HashSet<ListNode> set = new HashSet<>();
+        
+        // Start traversing the linked list from head
+        ListNode curr = head;
+
+        while (curr != null) {
+            // If the current node is already in the set, a cycle exists
+            if (set.contains(curr)) {
+                return true;
+            }
+
+            // Add the current node to the set
+            set.add(curr);
+
+            // Move to the next node
+            curr = curr.next;
+        }
+
+        // If we reach the end of the list, no cycle exists
+        return false;
+    }
+}
+
+//Approch-2 
+
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        // If the list is empty or has only one node, no cycle can exist
+        if (head == null) {
+            return false;
+        }
+
+        // Initialize slow and fast pointers
+        ListNode slow = head;        // moves one step at a time
+        ListNode fast = head.next;   // moves two steps at a time
+
+        // Traverse the list
+        while (slow != fast) {
+            // If fast pointer reaches the end, no cycle exists
+            if (fast == null || fast.next == null) {
+                return false;
+            }
+
+            // Move slow by one step
+            slow = slow.next;
+
+            // Move fast by two steps
+            fast = fast.next.next;
+        }
+
+        // If slow and fast meet, a cycle exists
+        return true;
+    }
+}
