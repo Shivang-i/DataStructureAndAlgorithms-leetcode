@@ -1,0 +1,35 @@
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        // Initialize pointers for binary search
+        int start = 0, last = nums.length - 1;
+        int mid, f = 0, ans = -1;
+
+        // Perform binary search
+        while (start <= last) {
+            // Avoid potential overflow in (start + last) / 2
+            mid = start + (last - start) / 2;
+
+            // If target is found, record index and exit loop
+            if (nums[mid] == target) {
+                f = 1;
+                ans = mid;
+                break;
+            }
+            // If target is smaller, move to the left half
+            else if (nums[mid] > target) {
+                last = mid - 1;
+            }
+            // If target is greater, move to the right half
+            else {
+                start = mid + 1;
+            }
+        }
+
+        // If found, return its index
+        if (f == 1)
+            return ans;
+        else 
+            // If not found, 'start' will be the correct insertion index
+            return start;
+    }
+}
