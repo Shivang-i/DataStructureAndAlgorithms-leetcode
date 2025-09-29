@@ -1,0 +1,41 @@
+class Solution {
+    // dp[i][j] will store the length of LCS for text1[0..i] and text2[0..j]
+    static int[][] dp;
+
+    public int longestCommonSubsequence(String text1, String text2) {
+        int m = text1.length();
+        int n = text2.length();
+
+        // Initialize dp array
+        dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j] = -1; // -1 indicates that this subproblem hasn't been solved yet
+            }
+        }
+
+        // Start recursive helper function from the last indices of both strings
+        return helper(text1, text2, m - 1, n - 1);
+    }
+
+    // Recursive helper function to find LCS length
+    public int helper(String text1, String text2, int m, int n) {
+        // Base case: if either string index is less than 0, LCS length is 0
+        if (m < 0 || n < 0)
+            return 0;
+
+        // If this subproblem has already been solved, return the stored value
+        if (dp[m][n] != -1) return dp[m][n];
+
+        // If current characters match, add 1 to result from remaining strings
+        if (text1.charAt(m) == text2.charAt(n)) {
+            return dp[m][n] = 1 + helper(text1, text2, m - 1, n - 1);
+        } else {
+            // If characters don't match, take the maximum by either:
+            // 1. Excluding current character from text1
+            // 2. Excluding current character from text2
+            return dp[m][n] = Math.max(helper(text1, text2, m - 1, n), 
+                                       helper(text1, text2, m, n - 1));
+        }
+    }
+}

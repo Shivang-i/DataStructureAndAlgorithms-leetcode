@@ -34,3 +34,33 @@ class Solution {
         return paths(m,n);
     }
 }
+
+//tabulation
+
+class Solution {
+    public int numberOfPaths(int m, int n) {
+        // Create a 2D dp array where dp[i][j] represents
+        // the number of unique paths to reach cell (i, j)
+        int dp[][] = new int[m][n];
+
+        // Iterate over all cells of the matrix
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                // Base case: first row or first column
+                // There is only one way to reach any cell in first row (all rights)
+                // or first column (all downs)
+                if (i == 0 || j == 0) {
+                    dp[i][j] = 1;
+                } else {
+                    // For other cells, the number of ways to reach (i, j) is:
+                    // ways from the top (i-1, j) + ways from the left (i, j-1)
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                }
+            }
+        }
+
+        // The bottom-right cell contains the total number of unique paths
+        return dp[m - 1][n - 1];
+    }
+}
+

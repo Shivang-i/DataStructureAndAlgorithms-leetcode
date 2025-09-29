@@ -50,3 +50,34 @@ class Solution {
         return helper(n, dp);
     }
 }
+
+
+//tabulation 
+
+class Solution {
+    public int climbStairs(int n) {
+        // Create a dp array to store the number of ways to reach each step
+        int dp[] = new int[n + 1];
+
+        // If there is only 1 step, there is only 1 way to climb it
+        if (n == 1) {
+            return 1;
+        }
+
+        // Base cases:
+        // dp[0] represents 0 steps (1 way: do nothing)
+        dp[0] = 1;
+        // dp[1] represents 1 step (1 way: a single step)
+        dp[1] = 1;
+
+        // Fill the dp array for steps from 2 to n
+        for (int i = 2; i <= n; i++) {
+            // To reach step i, we can either come from step i-1 or i-2
+            // So total ways to reach i = ways to reach i-1 + ways to reach i-2
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+
+        // Return the number of ways to reach step n
+        return dp[n];
+    }
+}

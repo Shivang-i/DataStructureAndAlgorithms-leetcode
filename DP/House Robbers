@@ -50,3 +50,41 @@ class Solution {
         return maxLoot(nums, 0, dp);
     }
 }
+
+
+
+//tabulation 
+
+
+class Solution {
+    public int findMaxSum(int arr[]) {
+        // Get the total number of elements in the array
+        int n = arr.length;
+
+        // If there's only one element, the maximum sum is that element itself
+        if (n == 1) {
+            return arr[0];
+        }
+
+        // Create a dp array to store the maximum sum up to each index
+        int dp[] = new int[n];
+
+        // Maximum sum at the first element is the element itself
+        dp[0] = arr[0];
+
+        // Maximum sum at the second element is the max of first element or second element
+        dp[1] = Math.max(arr[0], arr[1]);
+
+        // Compute the maximum sum for each element starting from the third
+        for (int i = 2; i < n; i++) {
+            // For each element, you have two choices:
+            // 1. Include the current element and add it to dp[i-2] (skip previous element)
+            // 2. Exclude the current element and take the maximum sum up to previous element (dp[i-1])
+            // Take the maximum of these two choices
+            dp[i] = Math.max(arr[i] + dp[i - 2], dp[i - 1]);
+        }
+
+        // The maximum sum without adjacent elements is stored in the last index of dp array
+        return dp[n - 1];
+    }
+}
