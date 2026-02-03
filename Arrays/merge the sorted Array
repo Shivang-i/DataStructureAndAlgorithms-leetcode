@@ -1,0 +1,19 @@
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        // Pointers for nums1 and nums2 starting from the end of their initialized elements
+        int p1 = m - 1;          // Last index of actual elements in nums1
+        int p2 = n - 1;          // Last index of nums2
+        int pMerge = m + n - 1;  // Last index of merged array in nums1
+
+        // Merge nums2 into nums1 starting from the end
+        while (p2 >= 0) {   // Continue until all elements of nums2 are merged
+            if (p1 >= 0 && nums1[p1] > nums2[p2]) {
+                // If current element in nums1 is larger, place it at the end
+                nums1[pMerge--] = nums1[p1--];
+            } else {
+                // Otherwise, place current element from nums2 at the end
+                nums1[pMerge--] = nums2[p2--];
+            }
+        }
+    }
+}
