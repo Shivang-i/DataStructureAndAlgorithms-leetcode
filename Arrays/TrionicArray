@@ -1,0 +1,36 @@
+class Solution {
+    public boolean isTrionic(int[] nums) {
+        int n = nums.length;
+
+        // A trionic array needs at least 4 elements
+        if (n < 4) return false;
+
+        int i = 0;
+
+        // 1️⃣ First phase: strictly increasing
+        while (i + 1 < n && nums[i] < nums[i + 1]) {
+            i++;
+        }
+
+        // If no increase happened or we already reached the end → invalid
+        if (i == 0 || i == n - 1) return false;
+
+        int p = i; // store end index of first increasing segment
+
+        // 2️⃣ Second phase: strictly decreasing
+        while (i + 1 < n && nums[i] > nums[i + 1]) {
+            i++;
+        }
+
+        // If no decrease happened or we reached the end → invalid
+        if (i == p || i == n - 1) return false;
+
+        // 3️⃣ Third phase: strictly increasing again
+        while (i + 1 < n && nums[i] < nums[i + 1]) {
+            i++;
+        }
+
+        // Valid trionic array only if we consumed all elements
+        return i == n - 1;
+    }
+}
